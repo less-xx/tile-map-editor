@@ -1,0 +1,31 @@
+{
+  "name": "tile-map-editor",
+  "version": "0.0.1",
+  "description": "HTML5 tile map editor.",
+  "main": "tile-map.js",
+  "scripts": {
+    "start": "gulp",
+    "build": "gulp build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/less-xx/tile-map-editor.git"
+  },
+  "keywords": ["Tile map editor", "Web based", "HTML5 Canvas"],
+  "maintainers": [
+    {
+      "name": "Less Jiang",
+      "email": "oursleepless@gmail.com"
+    }
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "latest",
+    "gulp": "latest",
+    "gulp-typescript": "latest",
+    "graceful-fs": "^4.0.0",
+    "gulp-uglify": "latest",
+    "gulp-open": "latest",
+    "minimatch": "^3.0.2"
+  }
+}
