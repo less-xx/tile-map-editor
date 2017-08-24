@@ -25,5 +25,10 @@ module TileMap {
             return (('devicePixelRatio' in window) && (window.devicePixelRatio > 1)) ? window.devicePixelRatio : 1;
             //return 1;
         }
+
+        public static get baseUrl(): string {
+            var loc = window.location;
+            return `${loc.protocol}//${loc.host}`;
+        }
     }
 }

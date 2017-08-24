@@ -33,18 +33,31 @@
             assetImgNode.height = mapSettings.tileSize[1];
 
             map = new TileMap.Map(document.getElementById("canvas"), mapSettings);
-            map.groundAssetURLs = {
-                "grass": "assets/ground/isometric/tile_grass_64x32.png"
-            };
+            map.groundAssetURLs = [{
+                id: "grass",
+                url: "/dist/assets/ground/isometric/tile_grass_64x32.png"
+            }];
 
-            map.heightAssetURLs = {
-                "tree01": "assets/height/isometric/tile_tree01_64.png",
-                "tree02": "assets/height/isometric/tile_tree02_64.png",
-                "tree03": "assets/height/isometric/tile_tree03_64.png",
-                "tree04": "assets/height/isometric/tile_tree04_64.png"
-            };
+            map.heightAssetURLs = [{
+                    id: "tree01",
+                    url: "/dist/assets/height/isometric/tile_tree01_64.png"
+                },
+                {
+                    id: "tree02",
+                    url: "/dist/assets/height/isometric/tile_tree02_64.png"
+                },
+                {
+                    id: "tree03",
+                    url: "/dist/assets/height/isometric/tile_tree03_64.png"
+                },
+                {
+                    id: "tree04",
+                    url: "/dist/assets/height/isometric/tile_tree04_64.png"
+                }
+            ];
             //map.mode = "edit";
             map.mode = "pan";
+            map.initialize();
 
             map.groundLayer.drawStyle = {
                 fillStyle: "rgba(100, 100, 100, 0.2)",
@@ -91,9 +104,9 @@
             updateAssetImage(asset);
             map.selectedAsset = asset;
             if (type == "ground") {
-                document.getElementById('heightAssets').value="clear";
-            }else{
-                document.getElementById('groundAssets').value="clear";
+                document.getElementById('heightAssets').value = "clear";
+            } else {
+                document.getElementById('groundAssets').value = "clear";
             }
         }
 

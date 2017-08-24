@@ -46,6 +46,10 @@ module TileMap {
             this._asset = asset;
         }
 
+        public get asset(): Asset {
+            return this._asset;
+        }
+
         public get startPoint(): Point {
             return this._startPoint;
         }
@@ -54,6 +58,10 @@ module TileMap {
             return this._size;
         }
 
+        public get center(): Point {
+            return new Point(this._centerX, this._centerY);
+        }
+        
         public contains(point: Point): boolean {
             return Util.isPointInPoly(this._shape, point);
         }
