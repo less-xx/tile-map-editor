@@ -26,6 +26,7 @@
     "graceful-fs": "^4.0.0",
     "gulp-uglify": "latest",
     "gulp-open": "latest",
+    "del": "^2.2.0",
     "minimatch": "^3.0.2"
   }
 }
