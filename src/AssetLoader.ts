@@ -49,6 +49,23 @@ module TileMap {
             }
             return "";
         }
+
+        public static getAssetURLByTypeAndKey(type: AssetType, key: string): string {
+            if (type === AssetType.Ground) {
+                return AssetLoader.getGroundAssetURL(key);
+            } else if (type === AssetType.Height) {
+                return AssetLoader.getHeightAssetURL(key);
+            }
+        }
+
+        public static getAssetByTypeAndKey(type: AssetType, key: string): Asset {
+            if (type === AssetType.Ground) {
+                return AssetLoader.getGroundAsset(key);
+            } else if (type === AssetType.Height) {
+                return AssetLoader.getHeightAsset(key);
+            }
+        }
+
         public static getGroundAssetURL(key: string): string {
             return AssetLoader.getAssetUrl(key, AssetLoader._groundAssetURLs);
         }

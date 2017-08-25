@@ -18,6 +18,7 @@
         }
     </style>
     <script type="text/javascript" src="tile-map.js"></script>
+    <script type="text/javascript" src="sample-mapdata.js"></script>
     <script type="text/javascript">
         var map = null;
         var assetImgNode = null;
@@ -32,13 +33,17 @@
             assetImgNode.width = mapSettings.tileSize[0];
             assetImgNode.height = mapSettings.tileSize[1];
 
-            map = new TileMap.Map(document.getElementById("canvas"), mapSettings);
-            map.groundAssetURLs = [{
-                id: "grass",
-                url: "/dist/assets/ground/isometric/tile_grass_64x32.png"
-            }];
+            //map = new TileMap.Map(document.getElementById("canvas"), mapSettings);
+            map = TileMap.Map.build(document.getElementById("canvas"), sampleMapData);
+            map.setGroundAssetURLs([{
+                id: "grass01",
+                url: "/dist/assets/ground/isometric/tile_grass01_64x32.png"
+            }, {
+                id: "road01",
+                url: "/dist/assets/ground/isometric/tile_road01_64x32.png"
+            }]);
 
-            map.heightAssetURLs = [{
+            map.setHeightAssetURLs([{
                     id: "tree01",
                     url: "/dist/assets/height/isometric/tile_tree01_64.png"
                 },
@@ -54,10 +59,9 @@
                     id: "tree04",
                     url: "/dist/assets/height/isometric/tile_tree04_64.png"
                 }
-            ];
+            ]);
             //map.mode = "edit";
             map.mode = "pan";
-            map.initialize();
 
             map.groundLayer.drawStyle = {
                 fillStyle: "rgba(100, 100, 100, 0.2)",
@@ -102,7 +106,7 @@
             //console.log(obj.value);
             var asset = map.assetByTypeAndId(type, obj.value);
             updateAssetImage(asset);
-            map.selectedAsset = asset;
+            map.activeAsset = [asset.id, type];
             if (type == "ground") {
                 document.getElementById('heightAssets').value = "clear";
             } else {

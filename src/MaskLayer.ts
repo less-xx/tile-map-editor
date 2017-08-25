@@ -76,7 +76,7 @@ module TileMap {
             this._context.save();
             this._context.translate(this._translate.x, this._translate.y);
             if (this.selectedTile != null) {
-                if (this.selectedTile.asset == null) {
+                if (this.selectedTile.assetIdType == null) {
                     this.selectedTile.draw(this._context, this._selectedTileDawStyle);
                 } else {
                     this._context.shadowBlur = 20;

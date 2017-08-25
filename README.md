@@ -20,6 +20,7 @@ Then add a <canvas> element.
 ```
 
 ### Step 2 - Create map object
+It's very easy to create a new map.
 ```javascript
 var mapSettings = {
     tileSize: [64, 32], // width, height in pixel.
@@ -28,26 +29,27 @@ var mapSettings = {
 };
   
 var map = new TileMap.Map(document.getElementById("canvas"), mapSettings);
+map.draw();
+```
+Or you can create map from JSON data (see below format)
+```javascript
+var map = TileMap.Map.build(document.getElementById("canvas"), sampleMapData);
 ```
 
-### Step 3 - Configure map assets
+### Step 3 - Add map assets
+You can paint the map with ground assets and height assets. Before you do so, you should add the assets to the map.
+
 ```javascript
-// Configure ground assets
+// add ground assets
 map.groundAssetURLs = [
     {id: "grass", url: "/dist/assets/ground/isometric/tile_grass_64x32.png"}
 ];
 
-// Configure height assets
+// add height assets
 map.heightAssetURLs = [
     {id: "tree01", url: "/dist/assets/height/isometric/tile_tree01_64.png"},
     {id: "tree02", url: "/dist/assets/height/isometric/tile_tree02_64.png"}
 ];
-```
-
-### Step 4 - Initialize
-The initialization will create layers for the map. When it's done, the map will be drawn on the canvas.
-```javascript
-map.initialize();
 ```
 
 ## Map Control
@@ -72,7 +74,7 @@ Under 'edit' mode, you can paint the map with the active asset. To make an asset
  * The second parameter is the id of the asset.
  */
 var asset = map.assetByTypeAndId("height", "tree02"); // choose an asset.
-map.selectedAsset = asset; // make it selected.
+map.activeAsset = asset; // make it active.
 ```
 
 ## Get map data
@@ -83,76 +85,60 @@ The data format will be like below
 
 ```json
 {
-    "layers": [
-        {
-            "assets": [
-                {
-                    "id": "grass",
-                    "url": "http://localhost:8000/dist/assets/ground/isometric/tile_grass_64x32.png"
-                }
-            ],
-            "tiles": {
-                "tiles": [
-                    {
-                        "asset": "grass",
-                        "id": "t0-0"
-                    },
-                    {
-                        "asset": "grass",
-                        "id": "t1-0"
-                    },
-                    {
-                        "asset": "grass",
-                        "id": "t1-1"
-                    },
-                    {
-                        "asset": "grass",
-                        "id": "t2-0"
-                    }
-                ]
-            },
-            "type": "ground"
-        },
-        {
-            "assets": [
-                {
-                    "id": "tree02",
-                    "url": "http://localhost:8000/dist/assets/height/isometric/tile_tree02_64.png"
-                }
-            ],
-            "tiles": {
-                "tiles": [
-                    {
-                        "asset": "grass",
-                        "id": "t0-0"
-                    },
-                    {
-                        "asset": "grass",
-                        "id": "t1-0"
-                    },
-                    {
-                        "asset": "grass",
-                        "id": "t1-1"
-                    },
-                    {
-                        "asset": "grass",
-                        "id": "t2-0"
-                    }
-                ]
-            },
-            "type": "height"
-        }
-    ],
     "settings": {
-        "isometric": true,
-        "mapSize": [
-            2,
-            2
-        ],
-        "tileSize": [
-            64,
-            32
-        ]
-    }
+        "tileSize": [64, 32],
+        "mapSize": [2, 2],
+        "isometric": true
+    },
+    "layers": [{
+        "assets": [{
+            "id": "grass01",
+            "url": "http://localhost:8000/dist/assets/ground/isometric/tile_grass01_64x32.png"
+        }],
+        "tiles": [{
+            "id": "t0-0",
+            "center": {
+                "x": 400,
+                "y": 284
+            },
+            "asset": "grass01"
+        }, {
+            "id": "t1-0",
+            "center": {
+                "x": 368,
+                "y": 300
+            },
+            "asset": "grass01"
+        }, {
+            "id": "t1-1",
+            "center": {
+                "x": 432,
+                "y": 300
+            },
+            "asset": "grass01"
+        }, {
+            "id": "t2-0",
+            "center": {
+                "x": 400,
+                "y": 316
+            },
+            "asset": "grass01"
+        }],
+        "type": "ground"
+    }, {
+        "assets": [{
+            "id": "tree01",
+            "url": "http://localhost:8000/dist/assets/height/isometric/tile_tree01_64.png"
+        }],
+        "tiles": [{
+            "id": "t1-1",
+            "center": {
+                "x": 432,
+                "y": 300
+            },
+            "asset": "tree01"
+        }],
+        "type": "height"
+    }]
 }
 ```

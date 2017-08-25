@@ -82,6 +82,22 @@ var TileMap;
             }
             return "";
         };
+        AssetLoader.getAssetURLByTypeAndKey = function (type, key) {
+            if (type === TileMap.AssetType.Ground) {
+                return AssetLoader.getGroundAssetURL(key);
+            }
+            else if (type === TileMap.AssetType.Height) {
+                return AssetLoader.getHeightAssetURL(key);
+            }
+        };
+        AssetLoader.getAssetByTypeAndKey = function (type, key) {
+            if (type === TileMap.AssetType.Ground) {
+                return AssetLoader.getGroundAsset(key);
+            }
+            else if (type === TileMap.AssetType.Height) {
+                return AssetLoader.getHeightAsset(key);
+            }
+        };
         AssetLoader.getGroundAssetURL = function (key) {
             return AssetLoader.getAssetUrl(key, AssetLoader._groundAssetURLs);
         };
@@ -110,68 +126,6 @@ var TileMap;
 })(TileMap || (TileMap = {}));
 var TileMap;
 (function (TileMap) {
-    var GroundTileLayer = (function () {
-        function GroundTileLayer(width, height) {
-            this._tiles = [];
-            this._translate = new TileMap.Point(0, 0);
-            this._drawStyle = {
-                fillStyle: "rgba(100, 100, 100, 0.2)",
-                strokeStyle: "rgba(100, 100, 100, 0.2)",
-                strokeWidth: 1.0,
-                useAsset: true
-            };
-            this._canvas = document.createElement("canvas");
-            this._canvas.width = width;
-            this._canvas.height = height;
-            this._context = this._canvas.getContext("2d");
-            this._context.scale(TileMap.Util.devicePixelRatio, TileMap.Util.devicePixelRatio);
-        }
-        Object.defineProperty(GroundTileLayer.prototype, "tiles", {
-            set: function (tiles) {
-                this._tiles = tiles;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(GroundTileLayer.prototype, "translate", {
-            set: function (translate) {
-                this._translate = translate;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(GroundTileLayer.prototype, "image", {
-            get: function () {
-                return this._canvas;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        GroundTileLayer.prototype.clear = function () {
-            this._context.save();
-            this._context.translate(0, 0);
-            this._context.clearRect(0, 0, this._canvas.width, this._canvas.height);
-            this._context.restore();
-        };
-        GroundTileLayer.prototype.draw = function () {
-            var _this = this;
-            this._context.save();
-            this._context.translate(this._translate.x, this._translate.y);
-            this._tiles.forEach(function (tile, index) { return tile.draw(_this._context, _this._drawStyle); });
-            this._context.restore();
-            return this._canvas;
-        };
-        GroundTileLayer.prototype.toJsonObj = function () {
-            return {
-                tiles: this._tiles.map(function (t) { return t.toJsonObj(); })
-            };
-        };
-        return GroundTileLayer;
-    }());
-    TileMap.GroundTileLayer = GroundTileLayer;
-})(TileMap || (TileMap = {}));
-var TileMap;
-(function (TileMap) {
     var MapMode;
     (function (MapMode) {
         MapMode["Pan"] = "pan";
@@ -187,7 +141,6 @@ var TileMap;
             };
             this._translate = new TileMap.Point(0, 0);
             this._isMouseDown = false;
-            this._selectedAsset = null;
             this._groundLayer = null;
             this._heightLayer = null;
             this._maskLayer = null;
@@ -205,70 +158,52 @@ var TileMap;
             this._canvas.addEventListener("mousedown", this._mouseDownHandler, false);
             this._canvas.addEventListener("mousemove", this._mouseMoveHandler, false);
             this._canvas.addEventListener("mouseup", this._mouseUpHandler, false);
-        }
-        Map.prototype.initialize = function () {
-            this._groundLayer = this.createLayer(TileMap.AssetType.Ground);
-            this._heightLayer = this.createLayer(TileMap.AssetType.Height);
-            this._maskLayer = new TileMap.MaskLayer(this._canvas.width, this._canvas.height);
-        };
-        Map.prototype.createLayer = function (assetType, layerData) {
             var w = this._settings.tileSize[0];
             var h = this._settings.tileSize[1];
-            var layer = new TileMap.TileLayer(this._canvas.width, this._canvas.height);
-            if (layerData == null) {
-                if (!this._settings.isometric) {
-                    var tiles = {};
-                    for (var row = 0; row < this._settings.mapSize[0]; row++) {
-                        for (var col = 0; col < this._settings.mapSize[1]; col++) {
-                            var centerX = this._center.x - (this._settings.mapSize[0] / 2 - col) * w;
-                            var centerY = this._center.y - (this._settings.mapSize[1] / 2 - row) * h;
-                            var tile = new TileMap.Tile(centerX, centerY, w, h, this._settings.isometric);
-                            tile.id = "t" + row + "-" + col;
-                            tiles[tile.id] = tile;
-                        }
+            var glayer = new TileMap.TileLayer(this._canvas.width, this._canvas.height, TileMap.AssetType.Ground, this._settings);
+            if (!this._settings.isometric) {
+                var tiles = {};
+                for (var row = 0; row < this._settings.mapSize[0]; row++) {
+                    for (var col = 0; col < this._settings.mapSize[1]; col++) {
+                        var centerX = this._center.x - (this._settings.mapSize[0] / 2 - col) * w;
+                        var centerY = this._center.y - (this._settings.mapSize[1] / 2 - row) * h;
+                        var tile = new TileMap.Tile(centerX, centerY, w, h, this._settings.isometric);
+                        tile.id = "t" + row + "-" + col;
+                        tiles[tile.id] = tile;
                     }
-                    layer.tiles = tiles;
                 }
-                else {
-                    var mapSize = this._settings.mapSize[0];
-                    var r = 0;
-                    var tiles = {};
-                    for (var row = 0; row < mapSize; row++) {
-                        for (var col = 0; col <= row; col++) {
-                            var centerX = this._center.x + (col - row / 2.0) * w;
-                            var centerY = this._center.y - (mapSize - row - 1) * h / 2;
-                            var tile = new TileMap.Tile(centerX, centerY, w, h, this._settings.isometric);
-                            tile.id = "t" + r + "-" + col;
-                            tiles[tile.id] = tile;
-                        }
-                        r = r + 1;
-                    }
-                    for (var row = mapSize - 2; row >= 0; row--) {
-                        for (var col = row; col >= 0; col--) {
-                            var centerX = this._center.x + (col - row / 2.0) * w;
-                            var centerY = this._center.y + (mapSize - row - 1) * h / 2;
-                            var tile = new TileMap.Tile(centerX, centerY, w, h, this._settings.isometric);
-                            tile.id = "t" + r + "-" + (row - col);
-                            tiles[tile.id] = tile;
-                        }
-                        r = r + 1;
-                    }
-                    layer.tiles = tiles;
-                }
+                glayer.tiles = tiles;
             }
             else {
+                var mapSize = this._settings.mapSize[0];
+                var r = 0;
                 var tiles = {};
-                for (var _i = 0, _a = layerData.tiles; _i < _a.length; _i++) {
-                    var tileData = _a[_i];
-                    var tile = new TileMap.Tile(tileData.center.x, tileData.center.y, w, h, this._settings.isometric);
-                    tile.id = tileData.id;
-                    tile.asset = this.assetByTypeAndId(assetType, tile.asset.id);
-                    tiles[tile.id] = tile;
+                for (var row = 0; row < mapSize; row++) {
+                    for (var col = 0; col <= row; col++) {
+                        var centerX = this._center.x + (col - row / 2.0) * w;
+                        var centerY = this._center.y - (mapSize - row - 1) * h / 2;
+                        var tile = new TileMap.Tile(centerX, centerY, w, h, this._settings.isometric);
+                        tile.id = "t" + r + "-" + col;
+                        tiles[tile.id] = tile;
+                    }
+                    r = r + 1;
                 }
-                layer.tiles = tiles;
+                for (var row = mapSize - 2; row >= 0; row--) {
+                    for (var col = row; col >= 0; col--) {
+                        var centerX = this._center.x + (col - row / 2.0) * w;
+                        var centerY = this._center.y + (mapSize - row - 1) * h / 2;
+                        var tile = new TileMap.Tile(centerX, centerY, w, h, this._settings.isometric);
+                        tile.id = "t" + r + "-" + (row - col);
+                        tiles[tile.id] = tile;
+                    }
+                    r = r + 1;
+                }
+                glayer.tiles = tiles;
             }
-            return layer;
-        };
+            this._groundLayer = glayer;
+            this._heightLayer = new TileMap.TileLayer(this._canvas.width, this._canvas.height, TileMap.AssetType.Height, this._settings);
+            this._maskLayer = new TileMap.MaskLayer(this._canvas.width, this._canvas.height);
+        }
         Object.defineProperty(Map.prototype, "groundLayer", {
             get: function () {
                 return this._groundLayer;
@@ -304,17 +239,10 @@ var TileMap;
             this._translate = new TileMap.Point(this._translate.x + x, this._translate.y + y);
             this.draw();
         };
-        Object.defineProperty(Map.prototype, "groundAssetURLs", {
-            set: function (assetUrls) {
-                var map = this;
-                TileMap.AssetLoader.loadGroundAssets(assetUrls, function () {
-                    map.selectedAsset = TileMap.AssetLoader.getGroundAsset(assetUrls[0].id);
-                    console.log("Default asset is " + map.selectedAsset.id + ".");
-                });
-            },
-            enumerable: true,
-            configurable: true
-        });
+        Map.prototype.setGroundAssetURLs = function (assetUrls, onComplete) {
+            var map = this;
+            TileMap.AssetLoader.loadGroundAssets(assetUrls, onComplete);
+        };
         Object.defineProperty(Map.prototype, "groundAssets", {
             get: function () {
                 return TileMap.AssetLoader.groundAssets();
@@ -322,13 +250,10 @@ var TileMap;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(Map.prototype, "heightAssetURLs", {
-            set: function (assetUrls) {
-                TileMap.AssetLoader.loadHeightAssets(assetUrls);
-            },
-            enumerable: true,
-            configurable: true
-        });
+        Map.prototype.setHeightAssetURLs = function (assetUrls, onComplete) {
+            var map = this;
+            TileMap.AssetLoader.loadHeightAssets(assetUrls, onComplete);
+        };
         Object.defineProperty(Map.prototype, "heightAssets", {
             get: function () {
                 return TileMap.AssetLoader.heightAssets();
@@ -336,23 +261,15 @@ var TileMap;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(Map.prototype, "selectedAsset", {
-            get: function () {
-                return this._selectedAsset;
-            },
+        Object.defineProperty(Map.prototype, "activeAsset", {
             set: function (asset) {
-                this._selectedAsset = asset;
+                this._activeAsset = asset;
             },
             enumerable: true,
             configurable: true
         });
-        Map.prototype.changeAsset = function (type, assetId) {
-            if (type === TileMap.AssetType.Ground) {
-                this.selectedAsset = TileMap.AssetLoader.getGroundAsset(assetId);
-            }
-            else {
-                this.selectedAsset = TileMap.AssetLoader.getHeightAsset(assetId);
-            }
+        Map.prototype.getActiveAsset = function () {
+            return this._activeAsset;
         };
         Object.defineProperty(Map.prototype, "mode", {
             get: function () {
@@ -366,12 +283,10 @@ var TileMap;
             configurable: true
         });
         Map.prototype.assetByTypeAndId = function (assetType, id) {
-            if (assetType === TileMap.AssetType.Ground) {
-                return TileMap.AssetLoader.getGroundAsset(id);
+            if (id == null) {
+                return null;
             }
-            else {
-                return TileMap.AssetLoader.getHeightAsset(id);
-            }
+            return TileMap.AssetLoader.getAssetByTypeAndKey(assetType, id);
         };
         Map.prototype.updateCursor = function () {
             if (this._mode === MapMode.Pan) {
@@ -401,8 +316,8 @@ var TileMap;
             }
             return null;
         };
-        Map.prototype.fillTileWithSelectedAsset = function (tileId) {
-            if (this.selectedAsset == null) {
+        Map.prototype.fillTileWithActiveAsset = function (tileId) {
+            if (this._activeAsset == null) {
                 var heightTile = this._heightLayer.tiles[tileId];
                 if (heightTile != null) {
                     delete this._heightLayer.tiles[heightTile.id];
@@ -410,17 +325,17 @@ var TileMap;
                     return;
                 }
             }
-            else if (this.selectedAsset.type === TileMap.AssetType.Height) {
+            else if (this._activeAsset[1] === TileMap.AssetType.Height) {
                 var heightTile = this._heightLayer.tiles[tileId];
                 if (heightTile == null) {
                     heightTile = this._maskLayer.highlightedTile;
                     this._heightLayer.tiles[heightTile.id] = heightTile;
                 }
-                heightTile.asset = this.selectedAsset;
+                heightTile.assetIdType = this._activeAsset;
             }
             else {
                 var groundTile = this._groundLayer.tiles[tileId];
-                groundTile.asset = this.selectedAsset;
+                groundTile.assetIdType = this._activeAsset;
             }
             this.draw();
         };
@@ -430,13 +345,13 @@ var TileMap;
             if (this._mode === MapMode.Pan || this._maskLayer.highlightedTile == null) {
                 return;
             }
-            this.fillTileWithSelectedAsset(this._maskLayer.highlightedTile.id);
+            this.fillTileWithActiveAsset(this._maskLayer.highlightedTile.id);
         };
         Map.prototype.mouseUp = function (e) {
             this._isMouseDown = false;
             this._maskLayer.selectedTile = this._maskLayer.highlightedTile;
             this.draw();
-            console.log(this.toJson());
+            console.log(JSON.stringify(this.mapData));
         };
         Map.prototype.mouseMove = function (e) {
             e.preventDefault();
@@ -459,69 +374,45 @@ var TileMap;
                     var hTile = tile.clone();
                     if (this._maskLayer.highlightedTile == null || hTile.id != this._maskLayer.highlightedTile.id) {
                         this._maskLayer.highlightedTile = hTile;
-                        this._maskLayer.highlightedTile.asset = null;
+                        this._maskLayer.highlightedTile.assetIdType = null;
                         this.drawMaskLayer();
                     }
                 }
                 if (this._isMouseDown) {
                     this._maskLayer.selectedTile = this._maskLayer.highlightedTile;
-                    this.fillTileWithSelectedAsset(tile.id);
+                    this.fillTileWithActiveAsset(tile.id);
                 }
             }
         };
         Object.defineProperty(Map.prototype, "mapData", {
             get: function () {
-                var _this = this;
+                var groundLayerData = this._groundLayer.getLayerData();
+                groundLayerData.type = TileMap.AssetType.Ground;
+                var heightLayerData = this._heightLayer.getLayerData();
+                heightLayerData.type = TileMap.AssetType.Height;
                 return {
                     settings: this._settings,
-                    layers: [{
-                            assets: Object.keys(this._groundLayer.tiles).
-                                map(function (id) { return _this._groundLayer.tiles[id]; }).
-                                filter(function (t) { return t.asset != null; }).
-                                map(function (t) { return t.asset.id; }).
-                                filter(function (el, i, arr) { return arr.indexOf(el) === i; }).
-                                map(function (key) {
-                                return {
-                                    id: key,
-                                    url: TileMap.AssetLoader.getGroundAssetURL(key)
-                                };
-                            }),
-                            tiles: this._groundLayer.toJsonObj(),
-                            type: TileMap.AssetType.Ground
-                        }, {
-                            assets: Object.keys(this._heightLayer.tiles).
-                                map(function (id) { return _this._heightLayer.tiles[id]; }).
-                                filter(function (t) { return t.asset != null; }).
-                                map(function (t) { return t.asset.id; }).
-                                filter(function (el, i, arr) { return arr.indexOf(el) === i; }).
-                                map(function (key) {
-                                return {
-                                    id: key,
-                                    url: TileMap.AssetLoader.getHeightAssetURL(key)
-                                };
-                            }),
-                            tiles: this._groundLayer.toJsonObj(),
-                            type: TileMap.AssetType.Height
-                        }]
+                    layers: [groundLayerData, heightLayerData]
                 };
             },
             enumerable: true,
             configurable: true
         });
-        Map.prototype.toJson = function () {
-            return JSON.stringify(this.mapData);
-        };
         Map.build = function (canvas, data) {
             var map = new Map(canvas, data.settings);
             for (var _i = 0, _a = data.layers; _i < _a.length; _i++) {
-                var layer = _a[_i];
-                if (layer.type === TileMap.AssetType.Ground) {
-                    map.groundAssetURLs = layer.assets;
-                    map._groundLayer = map.createLayer(TileMap.AssetType.Ground, layer);
+                var layerData = _a[_i];
+                if (layerData.type === TileMap.AssetType.Ground) {
+                    map.setGroundAssetURLs(layerData.assets, function () {
+                        map.draw();
+                    });
+                    map._groundLayer.setLayerData(layerData);
                 }
-                else if (layer.type === TileMap.AssetType.Height) {
-                    map.heightAssetURLs = layer.assets;
-                    map._heightLayer = map.createLayer(TileMap.AssetType.Height, layer);
+                else if (layerData.type === TileMap.AssetType.Height) {
+                    map.setHeightAssetURLs(layerData.assets, function () {
+                        map.draw();
+                    });
+                    map._heightLayer.setLayerData(layerData);
                 }
             }
             map._maskLayer = new TileMap.MaskLayer(map._canvas.width, map._canvas.height);
@@ -613,7 +504,7 @@ var TileMap;
             this._context.save();
             this._context.translate(this._translate.x, this._translate.y);
             if (this.selectedTile != null) {
-                if (this.selectedTile.asset == null) {
+                if (this.selectedTile.assetIdType == null) {
                     this.selectedTile.draw(this._context, this._selectedTileDawStyle);
                 }
                 else {
@@ -695,12 +586,12 @@ var TileMap;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(Tile.prototype, "asset", {
+        Object.defineProperty(Tile.prototype, "assetIdType", {
             get: function () {
-                return this._asset;
+                return this._assetIdType;
             },
-            set: function (asset) {
-                this._asset = asset;
+            set: function (assetIdType) {
+                this._assetIdType = assetIdType;
             },
             enumerable: true,
             configurable: true
@@ -748,22 +639,30 @@ var TileMap;
                 context.strokeStyle = drawStyle.strokeStyle;
                 context.stroke();
             }
-            if (this._asset != null && drawStyle.useAsset) {
-                context.drawImage(this._asset.image, this.startPoint.x, this.startPoint.y - this._asset.image.height + this._size.height, this._size.width, this._asset.image.height);
+            if (this._assetIdType != null && drawStyle.useAsset) {
+                var asset = TileMap.AssetLoader.getAssetByTypeAndKey(this._assetIdType[1], this._assetIdType[0]);
+                if (asset != null) {
+                    context.drawImage(asset.image, this.startPoint.x, this.startPoint.y - asset.image.height + this._size.height, this._size.width, asset.image.height);
+                }
             }
         };
         Tile.prototype.clone = function () {
             var tile = new Tile(this._centerX, this._centerY, this._size.width, this._size.height, this._isometric);
             tile._id = this._id;
-            tile._asset = this._asset;
+            tile._assetIdType = this._assetIdType;
             return tile;
         };
-        Tile.prototype.toJsonObj = function () {
-            return {
-                id: this._id,
-                asset: this._asset == null ? null : this._asset.id
-            };
-        };
+        Object.defineProperty(Tile.prototype, "tileData", {
+            get: function () {
+                return {
+                    id: this._id,
+                    center: this.center,
+                    asset: this._assetIdType == null ? null : this._assetIdType[0]
+                };
+            },
+            enumerable: true,
+            configurable: true
+        });
         return Tile;
     }());
     TileMap.Tile = Tile;
@@ -771,7 +670,7 @@ var TileMap;
 var TileMap;
 (function (TileMap) {
     var TileLayer = (function () {
-        function TileLayer(width, height) {
+        function TileLayer(width, height, assetType, settings) {
             this._tiles = {};
             this._translate = new TileMap.Point(0, 0);
             this._drawStyle = {
@@ -783,6 +682,8 @@ var TileMap;
             this._canvas = document.createElement("canvas");
             this._canvas.width = width;
             this._canvas.height = height;
+            this._assetType = assetType;
+            this._settings = settings;
             this._context = this._canvas.getContext("2d");
             this._context.scale(TileMap.Util.devicePixelRatio, TileMap.Util.devicePixelRatio);
         }
@@ -833,10 +734,35 @@ var TileMap;
             this._context.restore();
             return this._canvas;
         };
-        TileLayer.prototype.toJsonObj = function () {
+        TileLayer.prototype.setLayerData = function (layerData) {
+            var tiles = {};
+            for (var _i = 0, _a = layerData.tiles; _i < _a.length; _i++) {
+                var tileData = _a[_i];
+                var tile = new TileMap.Tile(tileData.center.x, tileData.center.y, this._settings.tileSize[0], this._settings.tileSize[1], this._settings.isometric);
+                tile.id = tileData.id;
+                if (tileData.asset != null) {
+                    tile.assetIdType = [tileData.asset, this._assetType];
+                }
+                tiles[tile.id] = tile;
+            }
+            this._tiles = tiles;
+        };
+        TileLayer.prototype.getLayerData = function () {
             var _this = this;
             return {
-                tiles: Object.keys(this._tiles).map(function (key) { return _this._tiles[key].toJsonObj(); })
+                assets: Object.keys(this.tiles).
+                    map(function (id) { return _this.tiles[id]; }).
+                    filter(function (t) { return t.assetIdType != null; }).
+                    map(function (t) { return t.assetIdType[0]; }).
+                    filter(function (el, i, arr) { return arr.indexOf(el) === i; }).
+                    map(function (key) {
+                    return {
+                        id: key,
+                        url: TileMap.AssetLoader.getAssetURLByTypeAndKey(_this._assetType, key)
+                    };
+                }),
+                tiles: Object.keys(this._tiles).map(function (key) { return _this._tiles[key].tileData; }),
+                type: this._assetType
             };
         };
         return TileLayer;

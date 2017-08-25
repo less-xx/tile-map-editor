@@ -4,7 +4,7 @@ module TileMap {
 
         private _id: string;
         private _shape: Point[];
-        private _asset: Asset;
+        private _assetIdType: [string, AssetType];
         private _isometric: boolean = false;
         private _size: Size;
         private _startPoint: Point;
@@ -42,12 +42,12 @@ module TileMap {
             return this._id;
         }
 
-        public set asset(asset: Asset) {
-            this._asset = asset;
+        public set assetIdType(assetIdType: [string, AssetType]) {
+            this._assetIdType = assetIdType;
         }
 
-        public get asset(): Asset {
-            return this._asset;
+        public get assetIdType(): [string, AssetType] {
+            return this._assetIdType;
         }
 
         public get startPoint(): Point {
@@ -61,7 +61,7 @@ module TileMap {
         public get center(): Point {
             return new Point(this._centerX, this._centerY);
         }
-        
+
         public contains(point: Point): boolean {
             return Util.isPointInPoly(this._shape, point);
         }
@@ -89,22 +89,26 @@ module TileMap {
                 context.stroke();
             }
 
-            if (this._asset != null && drawStyle.useAsset) {
-                context.drawImage(this._asset.image, this.startPoint.x, this.startPoint.y - this._asset.image.height + this._size.height, this._size.width, this._asset.image.height);
+            if (this._assetIdType != null && drawStyle.useAsset) {
+                var asset = AssetLoader.getAssetByTypeAndKey(this._assetIdType[1], this._assetIdType[0]);
+                if (asset != null) {
+                    context.drawImage(asset.image, this.startPoint.x, this.startPoint.y - asset.image.height + this._size.height, this._size.width, asset.image.height);
+                }
             }
         }
 
         clone(): Tile {
             var tile = new Tile(this._centerX, this._centerY, this._size.width, this._size.height, this._isometric);
             tile._id = this._id;
-            tile._asset = this._asset;
+            tile._assetIdType = this._assetIdType;
             return tile;
         }
 
-        toJsonObj(): any {
+        get tileData(): TileData {
             return {
                 id: this._id,
-                asset: this._asset == null ? null : this._asset.id
+                center: this.center,
+                asset: this._assetIdType == null ? null : this._assetIdType[0]
             };
         }
     }

@@ -2,6 +2,8 @@ module TileMap {
 
     export class TileLayer {
 
+        protected _settings: any;
+        protected _assetType: AssetType;
         protected _tiles: { [id: string]: Tile } = {};
         protected _canvas: HTMLCanvasElement;
         protected _context: CanvasRenderingContext2D;
@@ -14,10 +16,12 @@ module TileMap {
         };
 
 
-        constructor(width: number, height: number) {
+        constructor(width: number, height: number, assetType: AssetType, settings: any) {
             this._canvas = document.createElement("canvas");
             this._canvas.width = width;
             this._canvas.height = height;
+            this._assetType = assetType;
+            this._settings = settings;
             this._context = this._canvas.getContext("2d");
             this._context.scale(Util.devicePixelRatio, Util.devicePixelRatio);
         }
@@ -60,9 +64,35 @@ module TileMap {
             return this._canvas;
         }
 
-        toJsonObj(): any {
+        setLayerData(layerData: LayerData) {
+            var tiles: { [id: string]: Tile } = {};
+
+            for (var tileData of layerData.tiles) {
+                var tile = new Tile(tileData.center.x, tileData.center.y, this._settings.tileSize[0], this._settings.tileSize[1], this._settings.isometric);
+                tile.id = tileData.id;
+                if (tileData.asset != null) {
+                    tile.assetIdType = [tileData.asset, this._assetType];
+                }
+                tiles[tile.id] = tile;
+            }
+            this._tiles = tiles;
+        }
+
+        getLayerData(): LayerData {
             return {
-                tiles: Object.keys(this._tiles).map((key) => this._tiles[key].toJsonObj())
+                assets: Object.keys(this.tiles).
+                    map((id) => this.tiles[id]).
+                    filter((t) => t.assetIdType != null).
+                    map((t) => t.assetIdType[0]).
+                    filter((el, i, arr) => arr.indexOf(el) === i).
+                    map((key) => {
+                        return {
+                            id: key,
+                            url: AssetLoader.getAssetURLByTypeAndKey(this._assetType, key)
+                        }
+                    }),
+                tiles: Object.keys(this._tiles).map((key) => this._tiles[key].tileData),
+                type: this._assetType
             };
         }
     }
