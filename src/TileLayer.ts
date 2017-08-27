@@ -178,7 +178,7 @@ module TileMap {
             var tiles: TileData[] = [];
             this.iterate(function (tile: Tile) {
                 tiles.push(tile.tileData);
-                if (tile.assetIdType != null && assetIds.indexOf(tile.assetIdType[0])) {
+                if (tile.assetIdType != null && assetIds.indexOf(tile.assetIdType[0]) < 0) {
                     assetIds.push(tile.assetIdType[0]);
                 }
             });
