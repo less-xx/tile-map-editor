@@ -7,100 +7,10 @@ sampleMapData = {
     "layers": [{
         "assets": [{
             "id": "grass01",
-            "url": "http://localhost:8000/dist/assets/ground/isometric/tile_grass01_64x32.png"
+            "url": "https://user-images.githubusercontent.com/742769/29746288-b324891e-8b07-11e7-927c-3d62c1aa0846.png"
         }, {
             "id": "road01",
-            "url": "http://localhost:8000/dist/assets/ground/isometric/tile_road01_64x32.png"
-        }, {
-            "id": "road01",
-            "url": "http://localhost:8000/dist/assets/ground/isometric/tile_road01_64x32.png"
-        }, {
-            "id": "road01",
-            "url": "http://localhost:8000/dist/assets/ground/isometric/tile_road01_64x32.png"
-        }, {
-            "id": "road01",
-            "url": "http://localhost:8000/dist/assets/ground/isometric/tile_road01_64x32.png"
-        }, {
-            "id": "road01",
-            "url": "http://localhost:8000/dist/assets/ground/isometric/tile_road01_64x32.png"
-        }, {
-            "id": "road01",
-            "url": "http://localhost:8000/dist/assets/ground/isometric/tile_road01_64x32.png"
-        }, {
-            "id": "road01",
-            "url": "http://localhost:8000/dist/assets/ground/isometric/tile_road01_64x32.png"
-        }, {
-            "id": "road01",
-            "url": "http://localhost:8000/dist/assets/ground/isometric/tile_road01_64x32.png"
-        }, {
-            "id": "road01",
-            "url": "http://localhost:8000/dist/assets/ground/isometric/tile_road01_64x32.png"
-        }, {
-            "id": "road01",
-            "url": "http://localhost:8000/dist/assets/ground/isometric/tile_road01_64x32.png"
-        }, {
-            "id": "road01",
-            "url": "http://localhost:8000/dist/assets/ground/isometric/tile_road01_64x32.png"
-        }, {
-            "id": "road01",
-            "url": "http://localhost:8000/dist/assets/ground/isometric/tile_road01_64x32.png"
-        }, {
-            "id": "road01",
-            "url": "http://localhost:8000/dist/assets/ground/isometric/tile_road01_64x32.png"
-        }, {
-            "id": "road01",
-            "url": "http://localhost:8000/dist/assets/ground/isometric/tile_road01_64x32.png"
-        }, {
-            "id": "road01",
-            "url": "http://localhost:8000/dist/assets/ground/isometric/tile_road01_64x32.png"
-        }, {
-            "id": "road01",
-            "url": "http://localhost:8000/dist/assets/ground/isometric/tile_road01_64x32.png"
-        }, {
-            "id": "road01",
-            "url": "http://localhost:8000/dist/assets/ground/isometric/tile_road01_64x32.png"
-        }, {
-            "id": "road01",
-            "url": "http://localhost:8000/dist/assets/ground/isometric/tile_road01_64x32.png"
-        }, {
-            "id": "road01",
-            "url": "http://localhost:8000/dist/assets/ground/isometric/tile_road01_64x32.png"
-        }, {
-            "id": "road01",
-            "url": "http://localhost:8000/dist/assets/ground/isometric/tile_road01_64x32.png"
-        }, {
-            "id": "road01",
-            "url": "http://localhost:8000/dist/assets/ground/isometric/tile_road01_64x32.png"
-        }, {
-            "id": "road01",
-            "url": "http://localhost:8000/dist/assets/ground/isometric/tile_road01_64x32.png"
-        }, {
-            "id": "road01",
-            "url": "http://localhost:8000/dist/assets/ground/isometric/tile_road01_64x32.png"
-        }, {
-            "id": "road01",
-            "url": "http://localhost:8000/dist/assets/ground/isometric/tile_road01_64x32.png"
-        }, {
-            "id": "road01",
-            "url": "http://localhost:8000/dist/assets/ground/isometric/tile_road01_64x32.png"
-        }, {
-            "id": "road01",
-            "url": "http://localhost:8000/dist/assets/ground/isometric/tile_road01_64x32.png"
-        }, {
-            "id": "road01",
-            "url": "http://localhost:8000/dist/assets/ground/isometric/tile_road01_64x32.png"
-        }, {
-            "id": "road01",
-            "url": "http://localhost:8000/dist/assets/ground/isometric/tile_road01_64x32.png"
-        }, {
-            "id": "road01",
-            "url": "http://localhost:8000/dist/assets/ground/isometric/tile_road01_64x32.png"
-        }, {
-            "id": "road01",
-            "url": "http://localhost:8000/dist/assets/ground/isometric/tile_road01_64x32.png"
-        }, {
-            "id": "road01",
-            "url": "http://localhost:8000/dist/assets/ground/isometric/tile_road01_64x32.png"
+            "url": "https://user-images.githubusercontent.com/742769/29746287-ad66f732-8b07-11e7-8b8f-d085bd76f285.png"
         }],
         "tiles": [{
             "position": [0, 0],
@@ -122,7 +32,7 @@ sampleMapData = {
                 "x": 432,
                 "y": 172
             },
-            "asset": "grass01"
+            "asset": "road01"
         }, {
             "position": [2, 0],
             "center": {
@@ -136,7 +46,7 @@ sampleMapData = {
                 "x": 400,
                 "y": 188
             },
-            "asset": "grass01"
+            "asset": "road01"
         }, {
             "position": [2, 2],
             "center": {
@@ -157,7 +67,7 @@ sampleMapData = {
                 "x": 368,
                 "y": 204
             },
-            "asset": "grass01"
+            "asset": "road01"
         }, {
             "position": [3, 2],
             "center": {
@@ -213,21 +123,21 @@ sampleMapData = {
                 "x": 240,
                 "y": 236
             },
-            "asset": "road01"
+            "asset": "grass01"
         }, {
             "position": [5, 1],
             "center": {
                 "x": 304,
                 "y": 236
             },
-            "asset": "road01"
+            "asset": "grass01"
         }, {
             "position": [5, 2],
             "center": {
                 "x": 368,
                 "y": 236
             },
-            "asset": "grass01"
+            "asset": "road01"
         }, {
             "position": [5, 3],
             "center": {
@@ -262,7 +172,7 @@ sampleMapData = {
                 "x": 272,
                 "y": 252
             },
-            "asset": "road01"
+            "asset": "grass01"
         }, {
             "position": [6, 2],
             "center": {
@@ -276,14 +186,14 @@ sampleMapData = {
                 "x": 400,
                 "y": 252
             },
-            "asset": "road01"
+            "asset": "grass01"
         }, {
             "position": [6, 4],
             "center": {
                 "x": 464,
                 "y": 252
             },
-            "asset": "grass01"
+            "asset": "road01"
         }, {
             "position": [6, 5],
             "center": {
@@ -332,14 +242,14 @@ sampleMapData = {
                 "x": 432,
                 "y": 268
             },
-            "asset": "road01"
+            "asset": "grass01"
         }, {
             "position": [7, 5],
             "center": {
                 "x": 496,
                 "y": 268
             },
-            "asset": "grass01"
+            "asset": "road01"
         }, {
             "position": [7, 6],
             "center": {
@@ -353,7 +263,7 @@ sampleMapData = {
                 "x": 624,
                 "y": 268
             },
-            "asset": "road01"
+            "asset": "grass01"
         }, {
             "position": [8, 0],
             "center": {
@@ -374,7 +284,7 @@ sampleMapData = {
                 "x": 272,
                 "y": 284
             },
-            "asset": "road01"
+            "asset": "grass01"
         }, {
             "position": [8, 3],
             "center": {
@@ -409,7 +319,7 @@ sampleMapData = {
                 "x": 592,
                 "y": 284
             },
-            "asset": "road01"
+            "asset": "grass01"
         }, {
             "position": [8, 8],
             "center": {
@@ -437,7 +347,7 @@ sampleMapData = {
                 "x": 240,
                 "y": 300
             },
-            "asset": "road01"
+            "asset": "grass01"
         }, {
             "position": [9, 3],
             "center": {
@@ -458,7 +368,7 @@ sampleMapData = {
                 "x": 432,
                 "y": 300
             },
-            "asset": "road01"
+            "asset": "grass01"
         }, {
             "position": [9, 6],
             "center": {
@@ -472,7 +382,7 @@ sampleMapData = {
                 "x": 560,
                 "y": 300
             },
-            "asset": "road01"
+            "asset": "grass01"
         }, {
             "position": [9, 8],
             "center": {
@@ -570,7 +480,7 @@ sampleMapData = {
                 "x": 304,
                 "y": 332
             },
-            "asset": "grass01"
+            "asset": "road01"
         }, {
             "position": [11, 3],
             "center": {
@@ -612,7 +522,7 @@ sampleMapData = {
                 "x": 208,
                 "y": 348
             },
-            "asset": "grass01"
+            "asset": "road01"
         }, {
             "position": [12, 1],
             "center": {
@@ -661,14 +571,14 @@ sampleMapData = {
                 "x": 240,
                 "y": 364
             },
-            "asset": "road01"
+            "asset": "grass01"
         }, {
             "position": [13, 1],
             "center": {
                 "x": 304,
                 "y": 364
             },
-            "asset": "grass01"
+            "asset": "road01"
         }, {
             "position": [13, 2],
             "center": {
@@ -682,7 +592,7 @@ sampleMapData = {
                 "x": 432,
                 "y": 364
             },
-            "asset": "grass01"
+            "asset": "road01"
         }, {
             "position": [13, 4],
             "center": {
@@ -745,7 +655,7 @@ sampleMapData = {
                 "x": 368,
                 "y": 396
             },
-            "asset": "road01"
+            "asset": "grass01"
         }, {
             "position": [15, 2],
             "center": {
@@ -773,7 +683,7 @@ sampleMapData = {
                 "x": 400,
                 "y": 412
             },
-            "asset": "road01"
+            "asset": "grass01"
         }, {
             "position": [16, 2],
             "center": {
@@ -794,7 +704,7 @@ sampleMapData = {
                 "x": 432,
                 "y": 428
             },
-            "asset": "road01"
+            "asset": "grass01"
         }, {
             "position": [18, 0],
             "center": {
@@ -807,58 +717,10 @@ sampleMapData = {
     }, {
         "assets": [{
             "id": "tree01",
-            "url": "http://localhost:8000/dist/assets/height/isometric/tile_tree01_64.png"
+            "url": "https://user-images.githubusercontent.com/742769/29746290-be018698-8b07-11e7-9b0f-181683de75b1.png"
         }, {
             "id": "tree02",
-            "url": "http://localhost:8000/dist/assets/height/isometric/tile_tree02_64.png"
-        }, {
-            "id": "tree02",
-            "url": "http://localhost:8000/dist/assets/height/isometric/tile_tree02_64.png"
-        }, {
-            "id": "tree02",
-            "url": "http://localhost:8000/dist/assets/height/isometric/tile_tree02_64.png"
-        }, {
-            "id": "tree02",
-            "url": "http://localhost:8000/dist/assets/height/isometric/tile_tree02_64.png"
-        }, {
-            "id": "tree02",
-            "url": "http://localhost:8000/dist/assets/height/isometric/tile_tree02_64.png"
-        }, {
-            "id": "tree02",
-            "url": "http://localhost:8000/dist/assets/height/isometric/tile_tree02_64.png"
-        }, {
-            "id": "tree02",
-            "url": "http://localhost:8000/dist/assets/height/isometric/tile_tree02_64.png"
-        }, {
-            "id": "tree02",
-            "url": "http://localhost:8000/dist/assets/height/isometric/tile_tree02_64.png"
-        }, {
-            "id": "tree02",
-            "url": "http://localhost:8000/dist/assets/height/isometric/tile_tree02_64.png"
-        }, {
-            "id": "tree02",
-            "url": "http://localhost:8000/dist/assets/height/isometric/tile_tree02_64.png"
-        }, {
-            "id": "tree02",
-            "url": "http://localhost:8000/dist/assets/height/isometric/tile_tree02_64.png"
-        }, {
-            "id": "tree02",
-            "url": "http://localhost:8000/dist/assets/height/isometric/tile_tree02_64.png"
-        }, {
-            "id": "tree02",
-            "url": "http://localhost:8000/dist/assets/height/isometric/tile_tree02_64.png"
-        }, {
-            "id": "tree02",
-            "url": "http://localhost:8000/dist/assets/height/isometric/tile_tree02_64.png"
-        }, {
-            "id": "tree02",
-            "url": "http://localhost:8000/dist/assets/height/isometric/tile_tree02_64.png"
-        }, {
-            "id": "tree02",
-            "url": "http://localhost:8000/dist/assets/height/isometric/tile_tree02_64.png"
-        }, {
-            "id": "tree02",
-            "url": "http://localhost:8000/dist/assets/height/isometric/tile_tree02_64.png"
+            "url": "https://user-images.githubusercontent.com/742769/29746291-c0e6db10-8b07-11e7-85aa-c5a96fee9f70.png"
         }],
         "tiles": [{
             "position": [0, 0],
@@ -875,23 +737,9 @@ sampleMapData = {
             },
             "asset": "tree01"
         }, {
-            "position": [1, 1],
-            "center": {
-                "x": 432,
-                "y": 172
-            },
-            "asset": "tree01"
-        }, {
             "position": [2, 0],
             "center": {
                 "x": 336,
-                "y": 188
-            },
-            "asset": "tree01"
-        }, {
-            "position": [2, 1],
-            "center": {
-                "x": 400,
                 "y": 188
             },
             "asset": "tree01"
@@ -908,14 +756,7 @@ sampleMapData = {
                 "x": 304,
                 "y": 204
             },
-            "asset": "tree01"
-        }, {
-            "position": [3, 1],
-            "center": {
-                "x": 368,
-                "y": 204
-            },
-            "asset": "tree01"
+            "asset": "tree02"
         }, {
             "position": [3, 2],
             "center": {
@@ -936,7 +777,7 @@ sampleMapData = {
                 "x": 272,
                 "y": 220
             },
-            "asset": "tree01"
+            "asset": "tree02"
         }, {
             "position": [4, 3],
             "center": {
@@ -945,16 +786,30 @@ sampleMapData = {
             },
             "asset": "tree01"
         }, {
-            "position": [7, 5],
+            "position": [5, 1],
             "center": {
-                "x": 496,
+                "x": 304,
+                "y": 236
+            },
+            "asset": "tree02"
+        }, {
+            "position": [6, 2],
+            "center": {
+                "x": 336,
+                "y": 252
+            },
+            "asset": "tree02"
+        }, {
+            "position": [7, 3],
+            "center": {
+                "x": 368,
                 "y": 268
             },
             "asset": "tree02"
         }, {
-            "position": [7, 6],
+            "position": [7, 7],
             "center": {
-                "x": 560,
+                "x": 624,
                 "y": 268
             },
             "asset": "tree02"
@@ -966,9 +821,16 @@ sampleMapData = {
             },
             "asset": "tree02"
         }, {
-            "position": [8, 6],
+            "position": [8, 4],
             "center": {
-                "x": 528,
+                "x": 400,
+                "y": 284
+            },
+            "asset": "tree01"
+        }, {
+            "position": [8, 7],
+            "center": {
+                "x": 592,
                 "y": 284
             },
             "asset": "tree02"
@@ -999,7 +861,14 @@ sampleMapData = {
                 "x": 368,
                 "y": 300
             },
-            "asset": "tree02"
+            "asset": "tree01"
+        }, {
+            "position": [9, 5],
+            "center": {
+                "x": 432,
+                "y": 300
+            },
+            "asset": "tree01"
         }, {
             "position": [9, 8],
             "center": {
@@ -1022,33 +891,19 @@ sampleMapData = {
             },
             "asset": "tree02"
         }, {
-            "position": [10, 1],
-            "center": {
-                "x": 208,
-                "y": 316
-            },
-            "asset": "tree01"
-        }, {
-            "position": [10, 3],
-            "center": {
-                "x": 336,
-                "y": 316
-            },
-            "asset": "tree02"
-        }, {
             "position": [10, 4],
             "center": {
                 "x": 400,
                 "y": 316
             },
-            "asset": "tree02"
+            "asset": "tree01"
         }, {
             "position": [10, 7],
             "center": {
                 "x": 592,
                 "y": 316
             },
-            "asset": "tree02"
+            "asset": "tree01"
         }, {
             "position": [10, 8],
             "center": {
@@ -1057,23 +912,9 @@ sampleMapData = {
             },
             "asset": "tree02"
         }, {
-            "position": [11, 0],
+            "position": [11, 5],
             "center": {
-                "x": 176,
-                "y": 332
-            },
-            "asset": "tree01"
-        }, {
-            "position": [11, 2],
-            "center": {
-                "x": 304,
-                "y": 332
-            },
-            "asset": "tree01"
-        }, {
-            "position": [11, 3],
-            "center": {
-                "x": 368,
+                "x": 496,
                 "y": 332
             },
             "asset": "tree02"
@@ -1083,56 +924,42 @@ sampleMapData = {
                 "x": 624,
                 "y": 332
             },
-            "asset": "tree02"
+            "asset": "tree01"
         }, {
-            "position": [12, 2],
+            "position": [12, 4],
             "center": {
-                "x": 336,
+                "x": 464,
                 "y": 348
             },
-            "asset": "tree01"
+            "asset": "tree02"
+        }, {
+            "position": [12, 5],
+            "center": {
+                "x": 528,
+                "y": 348
+            },
+            "asset": "tree02"
         }, {
             "position": [13, 4],
             "center": {
                 "x": 496,
                 "y": 364
             },
-            "asset": "tree01"
+            "asset": "tree02"
         }, {
             "position": [13, 5],
             "center": {
                 "x": 560,
                 "y": 364
             },
-            "asset": "tree01"
-        }, {
-            "position": [14, 3],
-            "center": {
-                "x": 464,
-                "y": 380
-            },
-            "asset": "tree01"
+            "asset": "tree02"
         }, {
             "position": [14, 4],
             "center": {
                 "x": 528,
                 "y": 380
             },
-            "asset": "tree01"
-        }, {
-            "position": [15, 3],
-            "center": {
-                "x": 496,
-                "y": 396
-            },
-            "asset": "tree01"
-        }, {
-            "position": [16, 2],
-            "center": {
-                "x": 464,
-                "y": 412
-            },
-            "asset": "tree01"
+            "asset": "tree02"
         }],
         "type": "height"
     }]

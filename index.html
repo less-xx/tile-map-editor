@@ -33,33 +33,33 @@
             assetImgNode.width = mapSettings.tileSize[0];
             assetImgNode.height = mapSettings.tileSize[1];
 
-            map = new TileMap.Map(document.getElementById("canvas"), mapSettings);
-            //map = TileMap.Map.build(document.getElementById("canvas"), sampleMapData);
-            map.setGroundAssetURLs([{
-                id: "grass01",
-                url: "/dist/assets/ground/isometric/tile_grass01_64x32.png"
-            }, {
-                id: "road01",
-                url: "/dist/assets/ground/isometric/tile_road01_64x32.png"
-            }]);
+            //map = new TileMap.Map(document.getElementById("canvas"), mapSettings);
+            map = TileMap.Map.build(document.getElementById("canvas"), sampleMapData);
+            // map.setGroundAssetURLs([{
+            //     id: "grass01",
+            //     url: "/dist/assets/ground/isometric/tile_grass01_64x32.png"
+            // }, {
+            //     id: "road01",
+            //     url: "/dist/assets/ground/isometric/tile_road01_64x32.png"
+            // }]);
 
-            map.setHeightAssetURLs([{
-                    id: "tree01",
-                    url: "/dist/assets/height/isometric/tile_tree01_64.png"
-                },
-                {
-                    id: "tree02",
-                    url: "/dist/assets/height/isometric/tile_tree02_64.png"
-                },
-                {
-                    id: "tree03",
-                    url: "/dist/assets/height/isometric/tile_tree03_64.png"
-                },
-                {
-                    id: "tree04",
-                    url: "/dist/assets/height/isometric/tile_tree04_64.png"
-                }
-            ]);
+            // map.setHeightAssetURLs([{
+            //         id: "tree01",
+            //         url: "/dist/assets/height/isometric/tile_tree01_64.png"
+            //     },
+            //     {
+            //         id: "tree02",
+            //         url: "/dist/assets/height/isometric/tile_tree02_64.png"
+            //     },
+            //     {
+            //         id: "tree03",
+            //         url: "/dist/assets/height/isometric/tile_tree03_64.png"
+            //     },
+            //     {
+            //         id: "tree04",
+            //         url: "/dist/assets/height/isometric/tile_tree04_64.png"
+            //     }
+            // ]);
             //map.mode = "edit";
             map.mode = "pan";
 
