@@ -1,6 +1,8 @@
 # tile-map-editor
 An HTML5 online tile map editor. The map data can be exported in JSON format.
 
+Live demo to visi https://less-xx.github.io/tile-map-editor/
+
 <img src="https://user-images.githubusercontent.com/742769/29623655-a81fc21e-8859-11e7-887b-b0a07c9904a1.png" width="160">
 
 
@@ -84,7 +86,7 @@ var json = JSON.stringify(map.mapData)
 The data format will be like below
 
 ```json
-{{
+{
     "settings": {
         "tileSize": [64, 32],
         "mapSize": [2, 2],
