@@ -7,10 +7,10 @@ sampleMapData = {
     "layers": [{
         "assets": [{
             "id": "grass01",
-            "url": "https://user-images.githubusercontent.com/742769/29746288-b324891e-8b07-11e7-927c-3d62c1aa0846.png"
+            "url": "https://less-xx.github.io/tile-map-editor/assets/ground/isometric/tile_grass01_64x32.png"
         }, {
             "id": "road01",
-            "url": "https://user-images.githubusercontent.com/742769/29746287-ad66f732-8b07-11e7-8b8f-d085bd76f285.png"
+            "url": "https://less-xx.github.io/tile-map-editor/assets/ground/isometric/tile_road01_64x32.png"
         }],
         "tiles": [{
             "position": [0, 0],
@@ -717,10 +717,10 @@ sampleMapData = {
     }, {
         "assets": [{
             "id": "tree01",
-            "url": "https://user-images.githubusercontent.com/742769/29746290-be018698-8b07-11e7-9b0f-181683de75b1.png"
+            "url": "https://less-xx.github.io/tile-map-editor/assets/height/isometric/tile_tree01_64.png"
         }, {
             "id": "tree02",
-            "url": "https://user-images.githubusercontent.com/742769/29746291-c0e6db10-8b07-11e7-85aa-c5a96fee9f70.png"
+            "url": "https://less-xx.github.io/tile-map-editor/assets/height/isometric/tile_tree02_64.png"
         }],
         "tiles": [{
             "position": [0, 0],
