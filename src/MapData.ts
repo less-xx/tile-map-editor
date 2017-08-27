@@ -12,7 +12,7 @@ module TileMap {
     }
 
     export interface TileData {
-        id: string;
+        position: [number, number];
         center: Point;
         asset?: string;
     }

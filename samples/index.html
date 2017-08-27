@@ -26,15 +26,15 @@
         function onload() {
             var mapSettings = {
                 tileSize: [64, 32], //in pixel
-                mapSize: [10, 10], //rows and columns
+                mapSize: [10, 10], //rows and columns. This property will be ignored if the map is loaded from map data.
                 isometric: true
             };
             assetImgNode = document.getElementById("selectedAsset")
             assetImgNode.width = mapSettings.tileSize[0];
             assetImgNode.height = mapSettings.tileSize[1];
 
-            map = new TileMap.Map(document.getElementById("canvas"), mapSettings);
-            //map = TileMap.Map.build(document.getElementById("canvas"), sampleMapData);
+            //map = new TileMap.Map(document.getElementById("canvas"), mapSettings);
+            map = TileMap.Map.build(document.getElementById("canvas"), sampleMapData);
             map.setGroundAssetURLs([{
                 id: "grass01",
                 url: "/dist/assets/ground/isometric/tile_grass01_64x32.png"
@@ -106,7 +106,12 @@
             //console.log(obj.value);
             var asset = map.assetByTypeAndId(type, obj.value);
             updateAssetImage(asset);
-            map.activeAsset = [asset.id, type];
+            if (asset == null) {
+                map.activeAsset = null;
+            } else {
+                map.activeAsset = [asset.id, type];
+            }
+
             if (type == "ground") {
                 document.getElementById('heightAssets').value = "clear";
             } else {

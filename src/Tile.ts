@@ -2,7 +2,6 @@ module TileMap {
 
     export class Tile {
 
-        private _id: string;
         private _shape: Point[];
         private _assetIdType: [string, AssetType];
         private _isometric: boolean = false;
@@ -10,8 +9,10 @@ module TileMap {
         private _startPoint: Point;
         private _centerX: number;
         private _centerY: number;
+        private _position: [number, number];
 
-        constructor(centerX: number, centerY: number, width: number, height: number, isometric: boolean) {
+        constructor(position: [number, number], centerX: number, centerY: number, width: number, height: number, isometric: boolean) {
+            this._position = position;
             this._centerX = centerX;
             this._centerY = centerY;
             this._isometric = isometric;
@@ -34,12 +35,8 @@ module TileMap {
             this._size = new Size(width, height);
         }
 
-        public set id(id: string) {
-            this._id = id;
-        }
-
         public get id(): string {
-            return this._id;
+            return `t${this._position[0]}_${this._position[1]}`;
         }
 
         public set assetIdType(assetIdType: [string, AssetType]) {
@@ -64,6 +61,10 @@ module TileMap {
 
         public contains(point: Point): boolean {
             return Util.isPointInPoly(this._shape, point);
+        }
+
+        public get position(): [number, number] {
+            return this._position;
         }
 
         draw(context: CanvasRenderingContext2D, drawStyle: ITileDrawStyle) {
@@ -98,15 +99,14 @@ module TileMap {
         }
 
         clone(): Tile {
-            var tile = new Tile(this._centerX, this._centerY, this._size.width, this._size.height, this._isometric);
-            tile._id = this._id;
+            var tile = new Tile(this._position, this._centerX, this._centerY, this._size.width, this._size.height, this._isometric);
             tile._assetIdType = this._assetIdType;
             return tile;
         }
 
         get tileData(): TileData {
             return {
-                id: this._id,
+                position: this._position,
                 center: this.center,
                 asset: this._assetIdType == null ? null : this._assetIdType[0]
             };

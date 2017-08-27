@@ -19,6 +19,7 @@ module TileMap {
         private _canvas: HTMLCanvasElement;
         private _center: Point;
         private _context: CanvasRenderingContext2D;
+        private _canvasSize: Size;
 
         private _translate: Point = new Point(0, 0);
         private _isMouseDown: boolean = false;
@@ -38,8 +39,9 @@ module TileMap {
             this._canvas = canvas;
             this._settings = (<any>Object).assign({}, settings);
 
-            this._canvas.width = this._canvas.clientWidth * Util.devicePixelRatio;
-            this._canvas.height = this._canvas.clientHeight * Util.devicePixelRatio;
+            this._canvasSize = new Size(this._canvas.clientWidth * Util.devicePixelRatio, this._canvas.clientHeight * Util.devicePixelRatio);
+            this._canvas.width = this._canvasSize.width;
+            this._canvas.height = this._canvasSize.height;
             this._canvas.focus();
             this._context = this._canvas.getContext("2d");
             this._center = new Point(this._canvas.clientWidth / 2, this._canvas.clientHeight / 2);
@@ -51,49 +53,10 @@ module TileMap {
             this._canvas.addEventListener("mousemove", this._mouseMoveHandler, false);
             this._canvas.addEventListener("mouseup", this._mouseUpHandler, false);
 
-            var w = this._settings.tileSize[0];
-            var h = this._settings.tileSize[1];
-            var glayer = new TileLayer(this._canvas.width, this._canvas.height, AssetType.Ground, this._settings);
-            if (!this._settings.isometric) {
-                var tiles: { [id: string]: Tile } = {};
-                for (var row = 0; row < this._settings.mapSize[0]; row++) {
-                    for (var col = 0; col < this._settings.mapSize[1]; col++) {
-                        var centerX = this._center.x - (this._settings.mapSize[0] / 2 - col) * w;
-                        var centerY = this._center.y - (this._settings.mapSize[1] / 2 - row) * h;
-                        var tile = new Tile(centerX, centerY, w, h, this._settings.isometric);
-                        tile.id = `t${row}-${col}`;
-                        tiles[tile.id] = tile;
-                    }
-                }
-                glayer.tiles = tiles;
-            } else {
-                var mapSize = this._settings.mapSize[0];
-                var r = 0;
-                var tiles: { [id: string]: Tile } = {};
-                for (var row = 0; row < mapSize; row++) {
-                    for (var col = 0; col <= row; col++) {
-                        var centerX = this._center.x + (col - row / 2.0) * w;
-                        var centerY = this._center.y - (mapSize - row - 1) * h / 2;
-                        var tile = new Tile(centerX, centerY, w, h, this._settings.isometric);
-                        tile.id = `t${r}-${col}`;
-                        tiles[tile.id] = tile;
-                    }
-                    r = r + 1;
-                }
-                for (var row = mapSize - 2; row >= 0; row--) {
-                    for (var col = row; col >= 0; col--) {
-                        var centerX = this._center.x + (col - row / 2.0) * w;
-                        var centerY = this._center.y + (mapSize - row - 1) * h / 2;
-                        var tile = new Tile(centerX, centerY, w, h, this._settings.isometric);
-                        tile.id = `t${r}-${row - col}`;
-                        tiles[tile.id] = tile;
-                    }
-                    r = r + 1;
-                }
-                glayer.tiles = tiles;
-            }
-            this._groundLayer = glayer;
-            this._heightLayer = new TileLayer(this._canvas.width, this._canvas.height, AssetType.Height, this._settings);
+            this._groundLayer = new TileLayer(this, AssetType.Ground);
+            this._groundLayer.init();
+
+            this._heightLayer = new TileLayer(this, AssetType.Height);
             this._maskLayer = new MaskLayer(this._canvas.width, this._canvas.height);
         }
 
@@ -134,6 +97,13 @@ module TileMap {
             this._context.drawImage(this._heightLayer.image, 0, 0);
         }
 
+        get canvas(): HTMLCanvasElement {
+            return this._canvas;
+        }
+
+        get settings() {
+            return this._settings;
+        }
 
         public dmove(x: number, y: number) {
             this._translate = new Point(this._translate.x + x, this._translate.y + y);
@@ -203,32 +173,26 @@ module TileMap {
         }
 
         private groundTileAtPoint(p: Point): Tile {
-            for (var key in this._groundLayer.tiles) {
-                var tile = this._groundLayer.tiles[key];
-                if (tile.contains(p)) {
-                    return tile;
-                }
-            }
-            return null;
+            return this._groundLayer.findTileByPoint(p);
         }
 
-        private fillTileWithActiveAsset(tileId: string) {
+        private fillTileWithActiveAsset(position: [number, number]) {
             if (this._activeAsset == null) {
-                var heightTile = this._heightLayer.tiles[tileId];
+                var heightTile = this._heightLayer.findTileByPosition(position);
                 if (heightTile != null) {
-                    delete this._heightLayer.tiles[heightTile.id];
+                    this._heightLayer.deleteTileByPosition(position);
                     this.draw();
                     return
                 }
             } else if (this._activeAsset[1] === AssetType.Height) {
-                var heightTile = this._heightLayer.tiles[tileId];
+                var heightTile = this._heightLayer.findTileByPosition(position);
                 if (heightTile == null) {
                     heightTile = this._maskLayer.highlightedTile;
-                    this._heightLayer.tiles[heightTile.id] = heightTile
+                    this._heightLayer.setTileAt(position, heightTile);
                 }
                 heightTile.assetIdType = this._activeAsset;
             } else {
-                var groundTile = this._groundLayer.tiles[tileId];
+                var groundTile = this._groundLayer.findTileByPosition(position);
                 groundTile.assetIdType = this._activeAsset;
             }
             this.draw();
@@ -240,7 +204,7 @@ module TileMap {
             if (this._mode === MapMode.Pan || this._maskLayer.highlightedTile == null) {
                 return;
             }
-            this.fillTileWithActiveAsset(this._maskLayer.highlightedTile.id);
+            this.fillTileWithActiveAsset(this._maskLayer.highlightedTile.position);
         }
 
         private mouseUp(e: MouseEvent) {
@@ -275,7 +239,7 @@ module TileMap {
                 }
                 if (this._isMouseDown) {
                     this._maskLayer.selectedTile = this._maskLayer.highlightedTile;
-                    this.fillTileWithActiveAsset(tile.id);
+                    this.fillTileWithActiveAsset(tile.position);
                 }
             }
         }
